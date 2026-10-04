@@ -33,54 +33,56 @@ The chatbot uses a Retrieval-Augmented Generation (RAG) approach to retrieve rel
 
 🏗️ How It Works
 
-MedAssist follows a Retrieval-Augmented Generation architecture:
-User Question
- │
- ▼ Flask Backend 
- │
- ▼ Pinecone Retrieval 
- │
- ▼ Relevant Medical Information 
- │
- ▼ Groq LLM 
- │ 
- ▼ AI Response 
- │
- ▼ Chat Interface 
-The medical information is first extracted from the provided PDF, converted into embeddings, and stored in Pinecone.
-When a user asks a question, the system searches Pinecone for relevant information and provides that information as context to the language model.
+MedAssist uses a Retrieval-Augmented Generation (RAG) workflow to answer medical questions.
 
-🛠️ Technologies Used
+🔄 Complete Flow
 
-Technology       Purpose
-Python           Backend programming
-Flask            Web application framework
-LangChain        RAG and LLM integration
-Pinecone         Vector database
-Hugging Face     Text embeddings
-Groq             Large Language Model
-HTML,CSS,JS      Frontend programming
-Git & GitHub     Version control 
+User Question → Flask Backend → Pinecone Search → Medical Context → Groq AI → Flask → Chat Interface → User Response
 
-📁 Project Structure
+ 🛠️ Technologies Used
 
-MEDICAL_CHATBOT/ 
+Python — Backend programming
+
+Flask — Web application framework
+
+LangChain — RAG and LLM integration
+
+Pinecone — Vector database for storing and retrieving embeddings
+
+Hugging Face — Text embeddings
+
+Groq — Large Language Model
+
+HTML — Frontend structure
+
+CSS — Frontend styling
+
+JavaScript — Chat interaction
+
+Git & GitHub — Version control
+
+## 📁 Project Structure
+
+```text
+MEDICAL_CHATBOT/
 │
-├── Data/ 
-│    └── Medical_book.pdf 
-│ 
-├── src/ 
-│    ├── __init__.py 
-│    ├── helper.py 
-│    └── prompt.py 
+├── Data/
+│   └── Medical_book.pdf
+│
+├── src/
+│   ├── __init__.py
+│   ├── helper.py
+│   └── prompt.py
+│
 ├── templates/
-│    └── chat.html 
-│ 
-├── app.py 
-├── store_index.py 
-├── requirements.txt 
-├── .gitignore 
-└── README.md 
+│   └── chat.html
+│
+├── app.py
+├── store_index.py
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
 
 ⚙️ Installation
 
