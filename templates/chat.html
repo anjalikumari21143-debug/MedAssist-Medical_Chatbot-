@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MedAssist | Medical Assistant</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg,pink ,green );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 950px;
+            height: 90vh;
+            background: magenta;
+            border-radius: 24px;
+            box-shadow: 0 15px 45px rgba(0, 80, 130, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: linear-gradient(135deg, #07d5e8, #59d8bc);
+            color: greenyellow;
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: green;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .brand h1 {
+            font-size: 23px;
+            font-weight: 600;
+        }
+
+        .brand p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .clear-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: white;
+            padding: 9px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+
+        /* CHAT AREA */
+
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: #217cb8;
+        }
+
+        .welcome {
+            text-align: center;
+            max-width: 600px;
+            margin: 35px auto;
+        }
+
+        .welcome-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .welcome h2 {
+            color: #59d8bc;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #e26fc5;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+
+        /* MESSAGES */
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            animation: appear 0.25s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .bot-message {
+            justify-content: flex-start;
+        }
+
+        .message-wrapper {
+            display: flex;
+            gap: 10px;
+            max-width: 75%;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .bot-avatar {
+            background: #1f3637;
+        }
+
+        .user-avatar {
+            background: #b9dd84;
+        }
+
+        .message-content {
+            padding: 13px 17px;
+            border-radius: 16px;
+            line-height: 1.55;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .user-message .message-content {
+            background: #087f8c;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message .message-content {
+            background: rgb(94, 124, 234);
+            color: #263746;
+            border: 1px solid #e2eaf0;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+
+        /* TYPING */
+
+        .typing {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            color: #7b8b99;
+            font-size: 13px;
+            margin: 5px 0 18px 46px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #087f8c;
+            border-radius: 50%;
+            animation: blink 1.2s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+            0%, 80%, 100% {
+                opacity: 0.25;
+            }
+
+            40% {
+                opacity: 1;
+            }
+        }
+
+
+        /* INPUT */
+
+        .input-section {
+            background: white;
+            border-top: 1px solid #e7edf2;
+            padding: 15px 20px 10px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            background: #f3f7fa;
+            border: 1px solid #dce6ed;
+            border-radius: 16px;
+            padding: 6px;
+        }
+
+        #message-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 12px 14px;
+            font-size: 14px;
+            color: #263746;
+        }
+
+        #message-input::placeholder {
+            color: #9aa9b5;
+        }
+
+        #send-button {
+            border: none;
+            background: #087f8c;
+            color: white;
+            padding: 0 22px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        #send-button:hover {
+            background: #066b76;
+        }
+
+        #send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: #8997a3;
+            font-size: 11px;
+            padding: 8px 0 3px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 0;
+            }
+
+            .app {
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .header {
+                padding: 17px;
+            }
+
+            .brand h1 {
+                font-size: 19px;
+            }
+
+            .brand p {
+                font-size: 11px;
+            }
+
+            .clear-btn {
+                padding: 7px 10px;
+            }
+
+            .chat-box {
+                padding: 18px;
+            }
+
+            .message-wrapper {
+                max-width: 90%;
+            }
+
+            .welcome {
+                margin: 25px auto;
+            }
+
+            .input-section {
+                padding: 10px;
+            }
+
+            #send-button {
+                padding: 0 15px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <div class="logo">
+                🩺
+            </div>
+
+            <div>
+                <h1>MedAssist</h1>
+                <p>AI-powered medical information assistant</p>
+            </div>
+
+        </div>
+
+        <button class="clear-btn" onclick="clearChat()">
+            Clear
+        </button>
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <div class="chat-box" id="chat-box">
+
+        <div class="welcome" id="welcome">
+
+            <div class="welcome-icon">
+                🩺
+            </div>
+
+            <h2>How can I help you?</h2>
+
+            <p>
+                Ask a question about symptoms, diseases, treatments,
+                prevention, or other medical information from the
+                knowledge base.
+            </p>
+
+        </div>
+
+
+        <div class="typing" id="typing">
+
+            <span>MedAssist is thinking</span>
+
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+
+        </div>
+
+    </div>
+
+
+    <!-- INPUT -->
+
+    <div class="input-section">
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="message-input"
+                placeholder="Ask a medical question..."
+                autocomplete="off"
+            >
+
+            <button id="send-button">
+                Send
+            </button>
+
+        </div>
+
+        <div class="disclaimer">
+            ⚠️ For educational purposes only. This chatbot does not replace
+            professional medical advice.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const chatBox = document.getElementById("chat-box");
+    const messageInput = document.getElementById("message-input");
+    const sendButton = document.getElementById("send-button");
+    const typing = document.getElementById("typing");
+    const welcome = document.getElementById("welcome");
+
+
+    function addMessage(message, sender) {
+
+        welcome.style.display = "none";
+
+        const messageDiv = document.createElement("div");
+
+        messageDiv.classList.add("message");
+
+        if (sender === "user") {
+
+            messageDiv.classList.add("user-message");
+
+        } else {
+
+            messageDiv.classList.add("bot-message");
+
+        }
+
+
+        const wrapper = document.createElement("div");
+
+        wrapper.classList.add("message-wrapper");
+
+
+        const avatar = document.createElement("div");
+
+        avatar.classList.add("avatar");
+
+        if (sender === "user") {
+
+            avatar.classList.add("user-avatar");
+            avatar.textContent = "👤";
+
+        } else {
+
+            avatar.classList.add("bot-avatar");
+            avatar.textContent = "🩺";
+
+        }
+
+
+        const content = document.createElement("div");
+
+        content.classList.add("message-content");
+
+        content.textContent = message;
+
+
+        if (sender === "user") {
+
+            wrapper.appendChild(content);
+            wrapper.appendChild(avatar);
+
+        } else {
+
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(content);
+
+        }
+
+
+        messageDiv.appendChild(wrapper);
+
+        chatBox.insertBefore(messageDiv, typing);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+
+    async function sendMessage() {
+
+        const message = messageInput.value.trim();
+
+        if (message === "") {
+            return;
+        }
+
+
+        addMessage(message, "user");
+
+        messageInput.value = "";
+
+        sendButton.disabled = true;
+
+        typing.style.display = "flex";
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+
+        try {
+
+            const formData = new FormData();
+
+            formData.append("msg", message);
+
+
+            const response = await fetch("/get", {
+
+                method: "POST",
+
+                body: formData
+
+            });
+
+
+            if (!response.ok) {
+
+                throw new Error("Server error");
+
+            }
+
+
+            const answer = await response.text();
+
+            typing.style.display = "none";
+
+            addMessage(answer, "bot");
+
+
+        } catch (error) {
+
+            typing.style.display = "none";
+
+            addMessage(
+                "Sorry, I couldn't process your request. Please try again.",
+                "bot"
+            );
+
+            console.error(error);
+
+        }
+
+
+        sendButton.disabled = false;
+
+        messageInput.focus();
+
+    }
+
+
+    function clearChat() {
+
+        const messages = chatBox.querySelectorAll(".message");
+
+        messages.forEach(message => message.remove());
+
+        welcome.style.display = "block";
+
+        messageInput.focus();
+
+    }
+
+
+    sendButton.addEventListener("click", sendMessage);
+
+
+    messageInput.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>
